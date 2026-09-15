@@ -1,0 +1,548 @@
+/* ==========================================
+   OTTHONI BKK DASHBOARD
+   DINAMIKUS / RESPONSIVE VERZIÓ
+========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* ==========================================
+   ALAPOK
+========================================== */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background: #111111;
+    color: #ffffff;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+}
+
+body {
+    overflow: hidden;
+}
+
+
+/* ==========================================
+   FŐ DASHBOARD
+========================================== */
+
+.dashboard {
+    width: 100%;
+    height: 100dvh;
+
+    padding:
+        clamp(0.75rem, 2.5vh, 2rem)
+        clamp(1rem, 3vw, 3rem);
+
+    display: grid;
+
+    /*
+       Három logikai rész:
+
+       1. fejléc
+       2. közlekedés
+       3. alsó információk
+
+       A középső rész kapja a rendelkezésre
+       álló maradék helyet.
+    */
+
+    grid-template-rows:
+        auto
+        minmax(0, 1fr)
+        auto;
+
+    gap: clamp(0.5rem, 1.5vh, 1.5rem);
+}
+
+
+/* ==========================================
+   FEJLÉC
+========================================== */
+
+.header {
+    min-width: 0;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom:
+        clamp(0.5rem, 1.5vh, 1rem);
+
+    border-bottom:
+        clamp(1px, 0.15vw, 2px)
+        solid #ffffff;
+}
+
+.header-left {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.time {
+    font-size:
+        clamp(2.5rem, 7vw, 5rem);
+
+    font-weight: 700;
+
+    line-height: 0.9;
+
+    letter-spacing: -0.04em;
+}
+
+.date {
+    font-size:
+        clamp(0.9rem, 2.2vw, 1.6rem);
+
+    font-weight: 600;
+
+    margin-top:
+        clamp(0.25rem, 0.6vh, 0.5rem);
+}
+
+.location {
+    font-size:
+        clamp(0.9rem, 2.2vw, 1.6rem);
+
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+
+/* ==========================================
+   KÖZLEKEDÉS
+========================================== */
+
+.transport {
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap:
+        clamp(0.5rem, 1.5vh, 1.25rem);
+}
+
+.transport-section {
+    min-width: 0;
+}
+
+.transport-section + .transport-section {
+    padding-top:
+        clamp(0.5rem, 1.2vh, 1rem);
+
+    border-top:
+        clamp(1px, 0.1vw, 1px)
+        solid #555555;
+}
+
+
+/* ==========================================
+   SZEKCIÓ CÍM
+========================================== */
+
+.section-title {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap:
+        clamp(0.3rem, 0.8vw, 0.75rem);
+
+    font-size:
+        clamp(0.8rem, 1.8vw, 1.4rem);
+
+    font-weight: 700;
+
+    margin-bottom:
+        clamp(0.2rem, 0.6vh, 0.5rem);
+}
+
+.section-icon {
+    flex-shrink: 0;
+
+    font-size:
+        clamp(0.9rem, 2vw, 1.5rem);
+}
+
+.arrow {
+    flex-shrink: 0;
+
+    opacity: 0.6;
+}
+
+
+/* ==========================================
+   INDULÁSOK
+========================================== */
+
+.departure-list {
+    width: 100%;
+}
+
+.departure {
+    width: 100%;
+
+    /*
+       Nem fix magasság.
+       A betűméretből és paddingből számolódik.
+    */
+
+    min-height:
+        clamp(2rem, 5vh, 3.5rem);
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(4rem, 8vw)
+        minmax(0, 1fr)
+        minmax(3rem, 7vw);
+
+    align-items: center;
+
+    gap:
+        clamp(0.25rem, 0.7vw, 0.75rem);
+
+    border-bottom:
+        1px solid #444444;
+}
+
+.departure:last-child {
+    border-bottom: none;
+}
+
+.route {
+    font-size:
+        clamp(1rem, 2.5vw, 1.8rem);
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.destination {
+    min-width: 0;
+
+    font-size:
+        clamp(0.85rem, 2vw, 1.5rem);
+
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.minutes {
+    font-size:
+        clamp(1rem, 2.5vw, 1.8rem);
+
+    font-weight: 700;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+.loading,
+.error {
+    min-height:
+        clamp(2rem, 5vh, 3.5rem);
+
+    display: flex;
+
+    align-items: center;
+
+    font-size:
+        clamp(0.8rem, 1.7vw, 1.2rem);
+
+    opacity: 0.6;
+}
+
+
+/* ==========================================
+   ALSÓ RÉSZ
+========================================== */
+
+.bottom {
+    min-width: 0;
+
+    display: grid;
+
+    /*
+       Mindkét oldal ugyanakkora.
+    */
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap:
+        clamp(0.75rem, 2vw, 2rem);
+
+    border-top:
+        clamp(1px, 0.15vw, 2px)
+        solid #ffffff;
+
+    padding-top:
+        clamp(0.5rem, 1.5vh, 1rem);
+}
+
+
+/* ==========================================
+   IDŐJÁRÁS
+========================================== */
+
+.weather {
+    min-width: 0;
+
+    overflow: hidden;
+}
+
+.weather-main {
+    display: flex;
+
+    align-items: center;
+
+    gap:
+        clamp(0.4rem, 1vw, 1rem);
+
+    margin-top:
+        clamp(0.15rem, 0.5vh, 0.5rem);
+}
+
+.weather-icon {
+    flex-shrink: 0;
+
+    font-size:
+        clamp(2rem, 5vw, 4rem);
+
+    line-height: 1;
+}
+
+.temperature {
+    font-size:
+        clamp(2rem, 5.5vw, 4rem);
+
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+.weather-description {
+    font-size:
+        clamp(0.9rem, 2vw, 1.5rem);
+
+    margin-top:
+        clamp(0.25rem, 0.6vh, 0.5rem);
+}
+
+.weather-range {
+    font-size:
+        clamp(0.85rem, 1.8vw, 1.4rem);
+
+    margin-top:
+        clamp(0.15rem, 0.4vh, 0.4rem);
+}
+
+.weather-location {
+    font-size:
+        clamp(0.75rem, 1.6vw, 1.2rem);
+
+    margin-top:
+        clamp(0.15rem, 0.4vh, 0.4rem);
+
+    opacity: 0.7;
+}
+
+
+/* ==========================================
+   IDŐJÁRÁS EXTRA
+========================================== */
+
+.weather-extra {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap:
+        clamp(0.25rem, 0.8vw, 0.75rem)
+        clamp(0.5rem, 1.5vw, 1.5rem);
+
+    margin-top:
+        clamp(0.35rem, 0.8vh, 0.75rem);
+
+    font-size:
+        clamp(0.65rem, 1.4vw, 1rem);
+
+    opacity: 0.85;
+}
+
+.weather-detail {
+    white-space: nowrap;
+}
+
+.weather-detail strong {
+    font-weight: 700;
+}
+
+
+/* ==========================================
+   MA
+========================================== */
+
+.today {
+    min-width: 0;
+
+    overflow: hidden;
+
+    border-left:
+        clamp(1px, 0.1vw, 1px)
+        solid #555555;
+
+    padding-left:
+        clamp(0.75rem, 2vw, 2rem);
+}
+
+
+/* ==========================================
+   SZÜLETÉSNAP / NÉVNAP
+========================================== */
+
+.info-block {
+    margin-top:
+        clamp(0.35rem, 0.8vh, 0.75rem);
+}
+
+.info-label {
+    font-size:
+        clamp(0.65rem, 1.3vw, 1rem);
+
+    font-weight: 700;
+
+    opacity: 0.6;
+
+    letter-spacing:
+        clamp(0.02em, 0.08vw, 0.08em);
+}
+
+.info-value {
+    font-size:
+        clamp(0.9rem, 2vw, 1.5rem);
+
+    font-weight: 600;
+
+    line-height: 1.3;
+
+    margin-top:
+        clamp(0.1rem, 0.3vh, 0.3rem);
+
+    overflow: hidden;
+
+    word-wrap: break-word;
+}
+
+.birthday {
+    opacity: 0.8;
+}
+
+
+/* ==========================================
+   KESKENY KIJELZŐ
+========================================== */
+
+@media (max-width: 700px) {
+
+    .dashboard {
+        padding:
+            0.75rem;
+
+        gap:
+            0.5rem;
+    }
+
+    .bottom {
+        grid-template-columns:
+            1fr
+            1fr;
+
+        gap:
+            0.75rem;
+    }
+
+    .today {
+        padding-left:
+            0.75rem;
+    }
+
+}
+
+
+/* ==========================================
+   ÁLLÓ KIJELZŐ
+========================================== */
+
+@media (orientation: portrait) {
+
+    body {
+        overflow: auto;
+    }
+
+    .dashboard {
+        height: auto;
+        min-height: 100dvh;
+
+        grid-template-rows:
+            auto
+            auto
+            auto;
+    }
+
+    .transport {
+        justify-content: flex-start;
+    }
+
+    .bottom {
+        grid-template-columns: 1fr;
+
+        gap: 1rem;
+    }
+
+    .today {
+        border-left: none;
+
+        border-top:
+            1px solid #555555;
+
+        padding-left: 0;
+
+        padding-top: 1rem;
+    }
+}

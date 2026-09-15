@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Otthoni BKK Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <main class="dashboard">
+
+
+        <!-- =====================================
+             FEJLÉC
+        ====================================== -->
+
+        <header class="header">
+
+
+            <div class="header-left">
+
+
+                <div
+                    id="time"
+                    class="time"
+                >
+                    00:00
+                </div>
+
+
+                <div
+                    id="date"
+                    class="date"
+                >
+                    Betöltés...
+                </div>
+
+
+            </div>
+
+
+            <div class="location">
+                Budapest
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =====================================
+             KÖZLEKEDÉS
+        ====================================== -->
+
+        <section class="transport">
+
+
+            <!-- =================================
+                 BUSZ
+            ================================== -->
+
+            <div class="transport-section">
+
+
+                <div class="section-title">
+
+
+                    <span class="section-icon">
+                        🚌
+                    </span>
+
+
+                    <span>
+                        JÓKAI MÓR UTCA
+                    </span>
+
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+
+                    <span>
+                        ÖRS
+                    </span>
+
+
+                </div>
+
+
+                <div
+                    id="bus-departures"
+                    class="departure-list"
+                >
+
+                    <div class="loading">
+                        BKK adatok betöltése...
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 HÉV
+            ================================== -->
+
+            <div class="transport-section">
+
+
+                <div class="section-title">
+
+
+                    <span class="section-icon">
+                        🚆
+                    </span>
+
+
+                    <span>
+                        MÁTYÁSFÖLD, REPÜLŐTÉR H
+                    </span>
+
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+
+                    <span>
+                        ÖRS
+                    </span>
+
+
+                </div>
+
+
+                <div
+                    id="hev-departures"
+                    class="departure-list"
+                >
+
+                    <div class="loading">
+                        BKK adatok betöltése...
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             ALSÓ INFORMÁCIÓS RÉSZ
+        ====================================== -->
+
+        <section class="bottom">
+
+
+            <!-- =================================
+                 BAL OLDAL – IDŐJÁRÁS
+            ================================== -->
+
+            <div class="weather">
+
+
+                <div class="section-title">
+
+                    <span class="section-icon">
+                        ☀️
+                    </span>
+
+                    <span>
+                        IDŐJÁRÁS
+                    </span>
+
+                </div>
+
+
+
+                <div class="weather-main">
+
+
+                    <div
+                        id="weather-icon"
+                        class="weather-icon"
+                    >
+                        ☀️
+                    </div>
+
+
+                    <div
+                        id="temperature"
+                        class="temperature"
+                    >
+                        --°C
+                    </div>
+
+
+                </div>
+
+
+
+                <div
+                    id="weather-description"
+                    class="weather-description"
+                >
+                    Betöltés...
+                </div>
+
+
+
+                <div
+                    id="weather-range"
+                    class="weather-range"
+                >
+                    --° – --°
+                </div>
+
+
+
+                <div
+                    id="weather-location"
+                    class="weather-location"
+                >
+                    Budapest
+                </div>
+
+
+
+                <!-- IDŐJÁRÁS EXTRA ADATOK -->
+
+                <div
+                    id="weather-extra"
+                    class="weather-extra"
+                >
+
+
+                    <div class="weather-detail">
+
+                        🌧️ Eső esélye:
+
+                        <strong id="rain-chance">
+                            --%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="weather-detail">
+
+                        ☀️ Napkelte:
+
+                        <strong id="sunrise">
+                            --:--
+                        </strong>
+
+                    </div>
+
+
+                    <div class="weather-detail">
+
+                        🌇 Napnyugta:
+
+                        <strong id="sunset">
+                            --:--
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 JOBB OLDAL – MA
+            ================================== -->
+
+            <div class="today">
+
+
+                <!-- MA CÍM -->
+
+                <div class="section-title">
+
+
+                    <span class="section-icon">
+                        📅
+                    </span>
+
+
+                    <span>
+                        MA
+                    </span>
+
+
+                </div>
+
+
+
+                <!-- =============================
+                     SZÜLETÉSNAP
+                ============================== -->
+
+                <div class="info-block">
+
+
+                    <div class="info-label birthday">
+
+                        🎂 SZÜLETÉSNAP
+
+                    </div>
+
+
+                    <div
+                        id="birthdays"
+                        class="info-value"
+                    >
+                        Betöltés...
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =============================
+                     NÉVNAP
+                ============================== -->
+
+                <div class="info-block">
+
+
+                    <div class="info-label">
+
+                        📛 NÉVNAP
+
+                    </div>
+
+
+                    <div
+                        id="namedays"
+                        class="info-value"
+                    >
+                        Betöltés...
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================
+         JAVASCRIPT
+    ====================================== -->
+
+    <script src="dashboard.js"></script>
+
+
+</body>
+
+</html>
