@@ -12,86 +12,6 @@ const API_URL =
 
 
 /* ==========================================
-   SZÜLETÉSNAPOK
-========================================== */
-
-const BIRTHDAYS = [
-
-    { name: "Anna", date: "02-11" },
-    { name: "Álmos", date: "12-23" },
-    { name: "Adrienn/Anya", date: "12-02" },
-    { name: "Zsolt/Apa", date: "03-18" },
-    { name: "Luca", date: "08-31" },
-    { name: "Kinga", date: "06-16" },
-    { name: "Zorka", date: "09-08" },
-    { name: "Blanka", date: "04-06" },
-    { name: "Eszti", date: "04-19" },
-    { name: "Andris", date: "04-29" },
-    { name: "Gyuri/Apa", date: "05-10" },
-    { name: "Judit/Anya", date: "12-28" },
-    { name: "Enikő", date: "08-19" },
-    { name: "Sanyi", date: "10-03" },
-    { name: "Ircsi", date: "10-06" },
-    { name: "Berta Ádám", date: "10-13" },
-    { name: "Doncsi", date: "10-19" },
-    { name: "Balu", date: "11-13" },
-    { name: "Szonja", date: "12-06" },
-
-    { name: "Ráczkevi Bence", date: "01-21" },
-    { name: "Jocó", date: "01-28" },
-    { name: "Bori", date: "01-30" },
-
-    { name: "Angi", date: "02-10" },
-    { name: "Szerén", date: "02-13" },
-    { name: "Kovács Marci", date: "02-23" },
-    { name: "Lilla", date: "02-24" },
-
-    { name: "Vikesz", date: "03-10" },
-    { name: "Attika", date: "03-14" },
-    { name: "Gál Peti", date: "03-02" },
-
-    { name: "Gergő", date: "04-14" },
-    { name: "Száva", date: "05-25" },
-
-    { name: "Máté", date: "06-03" },
-    { name: "Beus", date: "06-14" },
-    { name: "Ancsi", date: "06-14" },
-
-    { name: "Mártonka", date: "07-11" },
-    { name: "Tomi", date: "07-26" },
-    { name: "Misu", date: "07-27" },
-    { name: "Dani", date: "07-27" },
-
-    { name: "Tündüs", date: "04-28" },
-
-    { name: "Szálka Laura", date: "01-25" },
-    { name: "Attila", date: "02-05" },
-    { name: "Nini", date: "07-14" },
-
-    { name: "Rózsahegyi Zsófi", date: "01-03" },
-
-    { name: "Hatvani Attila", date: "02-09" },
-    { name: "Minczér Flóra", date: "02-09" },
-
-    { name: "Hatvani Szofi", date: "03-08" },
-    { name: "Minczér Peti", date: "03-13" },
-
-    { name: "Minczér Panka", date: "05-17" },
-
-    { name: "Lacus", date: "06-06" },
-
-    { name: "Rózsahegyi Anna", date: "09-13" },
-    { name: "Rózsahegyi Ági", date: "11-03" },
-    { name: "Vollein Tibi", date: "11-07" },
-
-    { name: "Hajdu Marci", date: "07-14" },
-
-    { name: "Horváth Benedek", date: "09-07" }
-
-];
-
-
-/* ==========================================
    ÓRA
 ========================================== */
 
@@ -163,7 +83,7 @@ function updateDate() {
 
 
 /* ==========================================
-   BKK + IDŐJÁRÁS
+   BKK + IDŐJÁRÁS + SZÜLETÉSNAP
 ========================================== */
 
 async function loadDashboard() {
@@ -218,6 +138,15 @@ async function loadDashboard() {
         }
 
 
+        /* ===============================
+           SZÜLETÉSNAP
+        =============================== */
+
+        updateBirthdays(
+            data.birthday
+        );
+
+
     } catch (error) {
 
         console.error(
@@ -237,7 +166,6 @@ async function loadDashboard() {
 
     }
 }
-
 
 /* ==========================================
    BUSZOK
@@ -820,67 +748,22 @@ function formatTime(
    SZÜLETÉSNAPOK
 ========================================== */
 
-function updateBirthdays() {
-
-    const now =
-        new Date();
-
-
-    const month =
-        String(
-            now.getMonth() + 1
-        ).padStart(2, "0");
-
-
-    const day =
-        String(
-            now.getDate()
-        ).padStart(2, "0");
-
-
-    const today =
-        `${month}-${day}`;
-
-
-    const birthdays =
-        BIRTHDAYS.filter(
-            person =>
-                person.date === today
-        );
-
+function updateBirthdays(birthday) {
 
     const container =
-        document.getElementById(
-            "birthdays"
-        );
-
+        document.getElementById("birthdays");
 
     if (!container) {
-
         return;
-
     }
 
-
-    if (
-        birthdays.length === 0
-    ) {
-
+    if (!birthday) {
         container.textContent =
             "Nincs ma születésnap";
-
         return;
-
     }
 
-
-    container.innerHTML =
-        birthdays
-            .map(
-                person =>
-                    person.name
-            )
-            .join("<br>");
+    container.textContent = birthday;
 }
 
 
@@ -1005,8 +888,6 @@ function showError(
 updateClock();
 
 updateDate();
-
-updateBirthdays();
 
 updateNamedays();
 
