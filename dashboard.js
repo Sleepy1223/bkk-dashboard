@@ -938,36 +938,7 @@ async function updateNamedays() {
                 : [];
 
 
-        /* ==============================
-           EGYÉB NÉVNAPOK
-        ============================== */
-
-        const otherNames =
-            Array.isArray(today.other)
-                ? today.other
-                : [];
-
-
-        /* ==============================
-           ÖSSZES NÉVNAP
-        ============================== */
-
-        const allNames = [
-            ...mainNames,
-            ...otherNames
-        ];
-
-
-        /* ==============================
-           DUPLIKÁCIÓK TÖRLÉSE
-        ============================== */
-
-        const uniqueNames = [
-            ...new Set(allNames)
-        ];
-
-
-        if (uniqueNames.length === 0) {
+        if (mainNames.length === 0) {
 
             container.textContent = "Nincs adat";
 
@@ -979,38 +950,11 @@ async function updateNamedays() {
            MEGJELENÍTÉS
         ============================== */
 
-        let html = "";
-
-
-        /*
-         * Fő névnapok
-         */
-
-        if (mainNames.length > 0) {
-
-            html += `
-                <div class="nameday-main">
-                    ${mainNames.join(", ")}
-                </div>
-            `;
-        }
-
-
-        /*
-         * Egyéb névnapok
-         */
-
-        if (otherNames.length > 0) {
-
-            html += `
-                <div class="nameday-other">
-                    ${otherNames.join(", ")}
-                </div>
-            `;
-        }
-
-
-        container.innerHTML = html;
+        container.innerHTML = `
+            <div class="nameday-main">
+                ${mainNames.join(", ")}
+            </div>
+        `;
 
 
     } catch (error) {
@@ -1024,7 +968,6 @@ async function updateNamedays() {
             "Névnap adat nem elérhető";
     }
 }
-
 
 /* ==========================================
    HIBA
