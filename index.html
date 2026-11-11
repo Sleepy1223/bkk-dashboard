@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="hu" class="land">
 
 <head>
 
@@ -7,390 +7,220 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     >
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0b1220">
 
     <title>Otthoni BKK Dashboard</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <!--
+        A betűméretet a képernyőhöz igazítjuk, még az első kirajzolás előtt.
+        Régi böngészőkben (Android 4.x) nincs vw / vh / clamp, ezért
+        minden méret rem-ben van, a rem értékét pedig ez a pár sor adja meg.
+    -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+
+            window.bkkFit = function () {
+                var w = window.innerWidth || root.clientWidth || 1024;
+                var h = window.innerHeight || root.clientHeight || 552;
+                var land = w > h * 1.2;
+                var size = land ? Math.min(w / 64, h / 34.5) : w / 29;
+
+                if (size < 8) { size = 8; }
+                if (size > 48) { size = 48; }
+
+                root.style.fontSize = (Math.round(size * 100) / 100) + "px";
+                root.className = land ? "land" : "port";
+            };
+
+            window.bkkFit();
+        })();
+    </script>
+
+    <link rel="stylesheet" href="style.css?v=3">
 
 </head>
 
 
 <body>
 
-
-    <main class="dashboard">
+    <div class="app">
 
 
         <!-- =====================================
              FEJLÉC
         ====================================== -->
 
-        <header class="header">
+        <div class="header">
 
+            <div id="time" class="clock">--:--</div>
 
-            <div class="header-left">
+            <div class="dateblock">
+                <div id="weekday" class="weekday">&nbsp;</div>
+                <div id="date" class="date">&nbsp;</div>
+            </div>
 
+            <div class="controls">
 
-                <div
-                    id="time"
-                    class="time"
-                >
-                    00:00
+                <!-- IRÁNYVÁLTÓ -->
+                <div class="switch"><button
+                        type="button"
+                        id="btn-in"
+                        class="switch-btn is-active"
+                    >Örs felé</button><button
+                        type="button"
+                        id="btn-out"
+                        class="switch-btn"
+                    >Hazafelé</button></div>
+
+                <div class="status">
+                    <span id="status-dot" class="dot"></span><span id="status-text">Betöltés…</span>
                 </div>
 
+            </div>
 
-                <div
-                    id="date"
-                    class="date"
-                >
-                    Betöltés...
+        </div>
+
+
+        <div class="main">
+
+
+            <!-- =====================================
+                 KÖZLEKEDÉS
+            ====================================== -->
+
+            <div class="col col-transport">
+
+                <!-- BUSZ -->
+                <div class="slot slot-bus">
+                    <div class="card">
+
+                        <div class="card-head">
+                            <span class="chip chip-bus">BUSZ</span><span
+                                id="bus-from" class="from">Jókai Mór utca</span><img
+                                class="arrow" alt="" data-icon="arrow"><span
+                                id="bus-to" class="to">Örs vezér tere</span>
+                        </div>
+
+                        <div id="bus-departures" class="card-body">
+                            <div class="note">BKK adatok betöltése…</div>
+                        </div>
+
+                    </div>
                 </div>
 
+                <!-- HÉV -->
+                <div class="slot slot-hev">
+                    <div class="card">
+
+                        <div class="card-head">
+                            <span class="chip chip-hev">HÉV</span><span
+                                id="hev-from" class="from">Mátyásföld, repülőtér</span><img
+                                class="arrow" alt="" data-icon="arrow"><span
+                                id="hev-to" class="to">Örs vezér tere</span>
+                        </div>
+
+                        <div id="hev-departures" class="card-body">
+                            <div class="note">BKK adatok betöltése…</div>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
 
 
-            <div class="location">
-                Budapest
-            </div>
+            <!-- =====================================
+                 IDŐJÁRÁS + MA
+            ====================================== -->
 
+            <div class="col col-side">
 
-        </header>
+                <!-- IDŐJÁRÁS -->
+                <div class="slot slot-weather">
+                    <div class="card">
 
+                        <div class="card-head">
+                            <span class="to">Időjárás</span><span class="from head-extra">Budapest</span>
+                        </div>
 
+                        <div class="w-main">
+                            <div class="w-main-in">
 
-        <!-- =====================================
-             KÖZLEKEDÉS
-        ====================================== -->
+                                <img id="weather-icon" class="w-icon" alt="">
 
-        <section class="transport">
+                                <div class="w-line">
+                                    <span id="temperature" class="w-temp">--°</span><span
+                                        id="weather-range" class="w-range">--° – --°</span>
+                                </div>
 
+                                <div id="weather-description" class="w-desc">Betöltés…</div>
 
-            <!-- =================================
-                 BUSZ
-            ================================== -->
+                            </div>
+                        </div>
 
-            <div class="transport-section">
+                        <div class="w-stats">
 
+                            <div class="w-stat">
+                                <div class="label">Eső esélye</div>
+                                <div id="rain-chance" class="w-stat-value">--%</div>
+                            </div>
 
-                <div class="section-title">
+                            <div class="w-stat">
+                                <div class="label">Napkelte</div>
+                                <div id="sunrise" class="w-stat-value">--:--</div>
+                            </div>
 
+                            <div class="w-stat">
+                                <div class="label">Napnyugta</div>
+                                <div id="sunset" class="w-stat-value">--:--</div>
+                            </div>
 
-                    <span class="section-icon">
-                        🚌
-                    </span>
+                        </div>
 
-
-                    <span>
-                        JÓKAI MÓR UTCA
-                    </span>
-
-
-                    <span class="arrow">
-                        →
-                    </span>
-
-
-                    <span>
-                        ÖRS
-                    </span>
-
-
-                </div>
-
-
-                <div
-                    id="bus-departures"
-                    class="departure-list"
-                >
-
-                    <div class="loading">
-                        BKK adatok betöltése...
                     </div>
-
                 </div>
 
+                <!-- MA -->
+                <div class="slot slot-today">
+                    <div class="card">
 
-            </div>
+                        <div class="card-head">
+                            <span class="to">Ma</span>
+                        </div>
 
+                        <div class="today-body">
 
+                            <div class="today-col">
+                                <div class="label">Születésnap</div>
+                                <div id="birthdays" class="today-value">Betöltés…</div>
+                            </div>
 
-            <!-- =================================
-                 HÉV
-            ================================== -->
+                            <div class="today-col">
+                                <div class="label">Névnap</div>
+                                <div id="namedays" class="today-value">Betöltés…</div>
+                            </div>
 
-            <div class="transport-section">
+                        </div>
 
-
-                <div class="section-title">
-
-
-                    <span class="section-icon">
-                        🚆
-                    </span>
-
-
-                    <span>
-                        MÁTYÁSFÖLD, REPÜLŐTÉR H
-                    </span>
-
-
-                    <span class="arrow">
-                        →
-                    </span>
-
-
-                    <span>
-                        ÖRS
-                    </span>
-
-
-                </div>
-
-
-                <div
-                    id="hev-departures"
-                    class="departure-list"
-                >
-
-                    <div class="loading">
-                        BKK adatok betöltése...
                     </div>
-
                 </div>
-
 
             </div>
 
 
-        </section>
+        </div>
 
 
+    </div>
 
-        <!-- =====================================
-             ALSÓ INFORMÁCIÓS RÉSZ
-        ====================================== -->
 
-        <section class="bottom">
-
-
-            <!-- =================================
-                 BAL OLDAL – IDŐJÁRÁS
-            ================================== -->
-
-            <div class="weather">
-
-
-                <div class="section-title">
-
-                    <span class="section-icon">
-                        ☀️
-                    </span>
-
-                    <span>
-                        IDŐJÁRÁS
-                    </span>
-
-                </div>
-
-
-
-                <div class="weather-main">
-
-
-                    <div
-                        id="weather-icon"
-                        class="weather-icon"
-                    >
-                        ☀️
-                    </div>
-
-
-                    <div
-                        id="temperature"
-                        class="temperature"
-                    >
-                        --°C
-                    </div>
-
-
-                </div>
-
-
-
-                <div
-                    id="weather-description"
-                    class="weather-description"
-                >
-                    Betöltés...
-                </div>
-
-
-
-                <div
-                    id="weather-range"
-                    class="weather-range"
-                >
-                    --° – --°
-                </div>
-
-
-
-                <div
-                    id="weather-location"
-                    class="weather-location"
-                >
-                    Budapest
-                </div>
-
-
-
-                <!-- IDŐJÁRÁS EXTRA ADATOK -->
-
-                <div
-                    id="weather-extra"
-                    class="weather-extra"
-                >
-
-
-                    <div class="weather-detail">
-
-                        🌧️ Eső esélye:
-
-                        <strong id="rain-chance">
-                            --%
-                        </strong>
-
-                    </div>
-
-
-                    <div class="weather-detail">
-
-                        ☀️ Napkelte:
-
-                        <strong id="sunrise">
-                            --:--
-                        </strong>
-
-                    </div>
-
-
-                    <div class="weather-detail">
-
-                        🌇 Napnyugta:
-
-                        <strong id="sunset">
-                            --:--
-                        </strong>
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- =================================
-                 JOBB OLDAL – MA
-            ================================== -->
-
-            <div class="today">
-
-
-                <!-- MA CÍM -->
-
-                <div class="section-title">
-
-
-                    <span class="section-icon">
-                        📅
-                    </span>
-
-
-                    <span>
-                        MA
-                    </span>
-
-
-                </div>
-
-
-
-                <!-- =============================
-                     SZÜLETÉSNAP
-                ============================== -->
-
-                <div class="info-block">
-
-
-                    <div class="info-label birthday">
-
-                        🎂 SZÜLETÉSNAP
-
-                    </div>
-
-
-                    <div
-                        id="birthdays"
-                        class="info-value"
-                    >
-                        Betöltés...
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =============================
-                     NÉVNAP
-                ============================== -->
-
-                <div class="info-block">
-
-
-                    <div class="info-label">
-
-                        📛 NÉVNAP
-
-                    </div>
-
-
-                    <div
-                        id="namedays"
-                        class="info-value"
-                    >
-                        Betöltés...
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
-
-    </main>
-
-
-
-    <!-- =====================================
-         JAVASCRIPT
-    ====================================== -->
-
-    <script src="dashboard.js"></script>
-
+    <script src="dashboard.js?v=3"></script>
 
 </body>
 
